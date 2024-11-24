@@ -36,7 +36,7 @@ const Drafts = (props) => {
 
 export const getServerSideProps = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/drafts");
+    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/drafts");
     const contentType = res.headers.get("content-type");
 
     if (!contentType || !contentType.includes("application/json")) {

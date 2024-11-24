@@ -7,14 +7,14 @@ import Router from "next/router";
 import { PostProps } from "../../components/Post";
 
 async function publish(id) {
-  await fetch(`http://localhost:3000/api/publish/${id}`, {
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/publish/${id}`, {
     method: "PUT",
   });
   await Router.push("/");
 }
 
 async function destroy(id) {
-  await fetch(`http://localhost:3000/api/post/${id}`, {
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/post/${id}`, {
     method: "DELETE",
   });
   await Router.push("/");
@@ -64,7 +64,7 @@ const Post = (props) => {
 
 export const getServerSideProps = async (context) => {
   const res = await fetch(
-    `http://localhost:3000/api/post/${context.params.id}`
+    `${process.env.NEXT_PUBLIC_API_URL}/post/${context.params.id}`
   );
   const data = await res.json();
   return { props: { ...data } };

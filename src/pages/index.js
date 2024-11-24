@@ -37,7 +37,7 @@ export default Blog;
 
 export const getServerSideProps = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/feed");
+    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/feed");
     const contentType = res.headers.get("content-type");
 
     if (!contentType || !contentType.includes("application/json")) {
