@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // we'll need to update the id. Instead of an Int, we'll use String. We'll set the default to auto(). 
+  // Since MongoDB names the id field _id, we'll map the id field to _id. Lastly, we'll tell Prisma to use the data type of ObjectId for the id field.
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  name  String
+  posts Post[]
+}
+
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  content   String? // Content is optional
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  author    User     @relation(fields: [authorId], references: [id]) // in User table id reference to the User Id
+  authorId  String   @db.ObjectId
+}
